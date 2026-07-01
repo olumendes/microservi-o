@@ -86,7 +86,7 @@ api_pedidos/
 └── package.json
 ```
 
-## Como explicar pro professor (resumo)
+## Objetivo do nosso projeto
 
 - Isso é um **microsserviço**: uma API independente, só do recurso "pedidos".
 - Usamos o **json-server**, que cria automaticamente os endpoints REST
