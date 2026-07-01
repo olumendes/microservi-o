@@ -6,7 +6,7 @@ ferramenta que o resto da turma está usando.
 ## O que é o json-server
 
 O json-server lê um arquivo `db.json` e, sozinho, cria uma API REST completa
-em volta dele. Ou seja: o `db.json` **é o seu banco de dados** — quando você
+em volta dele. Ou seja: o `db.json` **é o nosso banco de dados** — quando você
 cria, edita ou apaga um pedido pela API, esse arquivo é atualizado
 automaticamente no disco. Se você reiniciar o servidor, os dados continuam
 lá (diferente de guardar só na memória).
