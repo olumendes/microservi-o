@@ -1,0 +1,196 @@
+openapi: 3.0.1
+info:
+  title: Microserviço de Pedidos
+  description: API para gerenciar pedidos (json-server + endpoints customizados para integração em rede)
+  version: 1.0.0
+  contact:
+    name: Equipe de Desenvolvimento
+    email: contato@exemplo.com
+servers:
+  - url: http://{host}:3002
+    variables:
+      host:
+        default: localhost
+        description: IP ou hostname do servidor
+paths:
+  /receive-order:
+    post:
+      summary: Recebe pedido via JSON e armazena temporariamente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncomingOrder'
+      responses:
+        '200':
+          description: Pedido recebido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  received:
+                    $ref: '#/components/schemas/IncomingOrder'
+    get:
+      summary: Recebe pedido via querystring e redireciona para UI
+      parameters:
+        - in: query
+          name: cliente
+          schema:
+            type: integer
+        - in: query
+          name: prato
+          schema:
+            type: string
+        - in: query
+          name: valor
+          schema:
+            type: number
+        - in: query
+          name: data
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: pagamentoUrl
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirecionamento para UI
+
+  /current-order:
+    get:
+      summary: Retorna o último pedido recebido (consumível uma vez)
+      responses:
+        '200':
+          description: Pedido atual ou objeto vazio
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/IncomingOrder'
+                  - type: object
+
+  /pedidos:
+    get:
+      summary: Lista pedidos (json-server)
+      responses:
+        '200':
+          description: Lista de pedidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pedido'
+    post:
+      summary: Cria um novo pedido (json-server)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PedidoCreate'
+      responses:
+        '201':
+          description: Pedido criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+
+  /pedidos/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Obter pedido por id
+      responses:
+        '200':
+          description: Pedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+    put:
+      summary: Atualiza pedido por id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PedidoCreate'
+      responses:
+        '200':
+          description: Pedido atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+    delete:
+      summary: Remove pedido por id
+      responses:
+        '200':
+          description: Pedido excluído
+
+components:
+  schemas:
+    IncomingOrder:
+      type: object
+      properties:
+        cliente:
+          type: integer
+        prato:
+          type: string
+        valor:
+          type: number
+        data:
+          type: string
+          format: date
+        pagamentoUrl:
+          type: string
+        raw:
+          type: object
+      example:
+        cliente: 5
+        prato: "Pizza"
+        valor: 45.9
+        data: "2026-07-01"
+        pagamentoUrl: "http://ip_pagto:3003/pagamento"
+
+    Pedido:
+      type: object
+      properties:
+        id:
+          type: integer
+        cliente:
+          type: integer
+        prato:
+          type: string
+        valor:
+          type: number
+        data_2:
+          type: string
+          format: date
+      required: [id, cliente, prato, valor]
+
+    PedidoCreate:
+      type: object
+      properties:
+        cliente:
+          type: integer
+        prato:
+          type: string
+        valor:
+          type: number
+        data_2:
+          type: string
+          format: date
+      required: [cliente, prato, valor]
