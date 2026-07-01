@@ -27,20 +27,20 @@ Acesse local:    http://localhost:3002/pedidos
 
 Abra `http://localhost:3002` no navegador pra ver a tela de testes (front-end).
 
-## Como os outros grupos acessam a sua API (mesma rede Wi-Fi)
+## Como os outros grupos acessam a nossa API (mesma rede Wi-Fi)
 
 1. Descubra o IP do seu notebook na rede:
    - **Windows**: abra o `cmd` e digite `ipconfig`. Procure por "Endereço IPv4" (algo como `192.168.1.45`).
    - **Mac/Linux**: abra o terminal e digite `ifconfig` ou `ip a`. Procure por algo parecido com `192.168.1.45`.
 
-2. Avise os outros grupos esse IP. Eles acessam sua API assim:
+2. Avise os outros grupos esse IP. Eles acessam nossa API assim:
    ```
    http://SEU_IP:3002/pedidos
    ```
    Exemplo: `http://192.168.1.45:3002/pedidos`
 
 3. O seu notebook precisa ficar com `npm start` rodando enquanto os outros
-   grupos forem usar a sua API.
+   grupos forem usar a nossa API.
 
 4. Se não funcionar, o motivo mais comum é o firewall do Windows. Na primeira
    vez que rodar `npm start`, se aparecer uma janela perguntando "Permitir
@@ -98,7 +98,7 @@ api_pedidos/
   os pedidos de um cliente específico, e o grupo de **Pagamento** pode usar
   `GET /pedidos/:id` para confirmar que um pedido existe antes de registrar
   o pagamento.
-- Cada grupo roda sua própria API no próprio notebook, e todos se conectam
+- Cada grupo roda nossa própria API no próprio notebook, e todos se conectam
   pela rede Wi-Fi da sala, usando o IP de quem está com a API ligada.
 - O front-end (página HTML) é uma tela simples só pra demonstrar a API
   funcionando — criar, listar e excluir pedidos pelo navegador.
